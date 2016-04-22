@@ -1,0 +1,121 @@
+; SEGA Master System Music Interface - Z80 code
+; Compile with WLA-DX
+
+; By Sebastian Tomczak
+; Portions of the code are from Maxim's HelloWorld program, which can be found here: http://www.smspower.org/maxim/uploads/HowToProgram/helloworld.zip
+
+
+
+.memorymap
+defaultslot 0
+slotsize $8000
+slot 0 $0000
+.endme
+
+.rombankmap
+bankstotal 1
+banksize $8000
+banks 1
+.endro
+
+.sdsctag 1.10,"Sound Out" "SMS MIDI Interface","Tomczak"
+
+.bank 0 slot 0
+.org $0000
+    di              ; disable interrupts
+    im 1            ; Interrupt mode 1
+    jp Main         ; jump to main program
+
+.org $0066
+    ; Do nothing
+    retn
+
+;==============================================================
+; Main program
+;==============================================================
+
+; set registers to zero, set direction of the TH pin to input
+Main:
+     ld sp, $dff0 ; set up the stack pointer
+
+     ld a,0 ; set register A to 0
+     ld b,0 ; set register B to 0
+
+; wait for WRITE pin to be active
+Loop:
+     in a,($dc) ; load one portion of the control data into register A
+     bit 6,a ; check bit6 (write pin)
+     jp nz, CheckState ; if the pin is high, there is data present
+     jp Loop ; if the pin is not high, there is no data present and we can repeat the check
+
+; check whether nibble is high or low
+CheckState:
+     bit 7,a	; check bit 7 - if it is high, then the nibble is a high nibble
+     jp nz, HighNibble ; jump to the high nibble loading function
+
+; if the nibble is low, load data into register B next write loop
+LowNibble:
+     in a,($dd) ; load the other portion of the control data into register A - this is the low nibble data
+     and $0f ; we are only interested in the lower nibble
+     ld b,a ; load register A into register B so we can store the low nibble for later
+     jp Loop
+
+; if the nibble is high, assume that a low nibble has already been written
+; if TH pin is high, the data present is intended for the FM chip (YM2413)
+; if TH pin is low, the data present is intended for the PSG chip (SN76489)
+
+HighNibble:
+     in a,($dd) ; load the other portion of the control data into register A - this is the high nibble data
+     bit 7,a ; check the TH pin - this signifies whether a byte is eventually for the FM or for the PSG
+     jp  nz, doFM ; if the TH pin is high, the data is for the FM chip 
+
+     sla       a ; shift the nibble left by one bit
+     sla       a ; shift the nibble left by one bit
+     sla       a ; shift the nibble left by one bit
+     sla       a ; shift the nibble left by one bit
+     or        b ; combine with the low nibble stored earlier in register B
+          out ($7f),a ; send the data to the PSG 
+          jp Loop     ; jump to loop, wait for the next write cycle to begin
+          
+doFM:
+     sla       a ; shift the nibble left by one bit
+     sla       a ; shift the nibble left by one bit
+     sla       a ; shift the nibble left by one bit
+     sla       a ; shift the nibble left by one bit
+     or        b ; combine with the low nibble stored earlier in register B
+    
+; At this point...
+; bit 7 indicates address (high) or data (low)
+; bit 6 indicates data nibble (high) or (low)
+; bit 5 potentially contains part of the address if byte is an address byte
+; bit 4 potentially contains part of the address if byte is an address byte
+; bit 3, 2, 1 and 0 are always data bits of either the address or data byte type
+
+     bit 7,a		; check bit 7 - if it is high, then the data present is an address
+     jp  nz, ADDRESS	; jump to address loading function if the bit is high
+     jp  DATA		; jump to the data loading function if the bit is low
+
+ADDRESS:
+     and     $3f      ; since there are only 58 register, we do not need the upper 2 bits of the byte
+     out     ($f0),a  ; write and latch the address to the FM chip
+     jp  Loop         ; jump to loop, wait for the next write cycle to begin
+
+DATA:
+     bit 6,a		; check bit 6 - if it is high, then the nibble is a high data nibble
+     jp  nz, DATA_HIGH  ; jump to the high data nibble function
+
+DATA_LOW:
+     and $0f	; we are only interested in the lower nibble
+     ld  d,a	; load the lower nibble into register D
+     jp  Loop	; jump to loop, wait for the next write cycle to begin
+
+; if the nibble is high, we assume that the lower nibble has already been written to the Z80
+
+DATA_HIGH:
+     sla       a ; shift the nibble left by one bit
+     sla       a ; shift the nibble left by one bit
+     sla       a ; shift the nibble left by one bit
+     sla       a ; shift the nibble left by one bit
+     or        d ; combine with the low nibble stored earlier in register D	
+     out ($f1),  a	; write the data to the previously latched FM address (stored in the FM chip)	
+     jp      Loop	; jump to loop, wait for the next write cycle to begin
