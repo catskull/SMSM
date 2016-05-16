@@ -32,6 +32,10 @@ SMS Player 2 Port Pin 9 <-- Arduino Analog Input Pin 3
 #define MODE_NTSC 83
 #define MODE_PAL 0
 
+#define MIDI_PANIC_PRESSED 0
+
+static int MIDI_PANIC_BUTTON = 9;
+
 // FM VALUES
 
 byte prev_address;
@@ -368,6 +372,8 @@ void setup() {
 
   PORTC = 0;
 
+  pinMode(MIDI_PANIC_BUTTON, INPUT_PULLUP);
+
 
   delay(6500);
   doCC(4, 14, 101);
@@ -411,6 +417,7 @@ void setup() {
 
 // Main Loop
 void loop() {
+  doMidiPanic();
   doAM();
   doVib();
   doSample();
@@ -428,6 +435,14 @@ void loop() {
   }
 }
 
+
+void doMidiPanic() {
+  if(digitalRead(MIDI_PANIC_BUTTON) == MIDI_PANIC_PRESSED) {
+    for(byte i = 0; i < 14; i++) {
+      doNoteOff(i, 0, 0);
+    }
+  }
+}
 
 
 
