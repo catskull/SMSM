@@ -33,8 +33,9 @@ SMS Player 2 Port Pin 9 <-- Arduino Analog Input Pin 3
 #define MODE_PAL 0
 
 #define MIDI_PANIC_PRESSED 0
+#define MIDI_PANIC_BUTTON 9
 
-static int MIDI_PANIC_BUTTON = 9;
+#define STATUS_LED 13
 
 // FM VALUES
 
@@ -408,8 +409,6 @@ void setup() {
       doNoteOn(5, (j * 7) + 40, 0);
       doNoteOn(6, (j * 7) + 47, 0);
       doNoteOn(7, (j * 7) + 28, 0);
-      
-      
   }
 
 }
@@ -421,8 +420,6 @@ void loop() {
   doAM();
   doVib();
   doSample();
-
-
 
 // Dealing with initial serial data
 
@@ -445,11 +442,9 @@ void doMidiPanic() {
 }
 
 
-
 // Dealing with MIDI data
 
 void doNoteOn(byte channel, byte pitch, byte velocity) {
-  
   
 // YM2413 NOTE ON EVENTS
   
@@ -570,12 +565,10 @@ void doNoteOn(byte channel, byte pitch, byte velocity) {
       velocityData[channel] = 0;
       writeAmplitude(0, channel);
     }
-  }   
 }
 
 
 void doNoteOff(byte channel, byte pitch, byte velocity) {
-  
   
     if((channel == 13) && ((shadow[0x0e] & B00100000) == 0x20)) {   
        doDrums(pitch % 12, 0); 
@@ -1237,7 +1230,6 @@ void doMidiIn(byte data) {
     flag_previous = 0;
   }
   // done with bend data
-
 }
 
 void doDrums(byte case1, byte velo1) {
