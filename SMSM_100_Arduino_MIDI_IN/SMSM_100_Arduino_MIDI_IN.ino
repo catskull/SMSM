@@ -363,6 +363,8 @@ byte vibFlip[] = {
 
 void setup() {
   Serial.begin(31250);
+  // temp variable for flashing status LED on startup
+  bool led = 0;
 
   DDRC = DDRC | B00111111; // set the direction for PORTC
 
@@ -374,6 +376,8 @@ void setup() {
   PORTC = 0;
 
   pinMode(MIDI_PANIC_BUTTON, INPUT_PULLUP);
+  pinMode(STATUS_LED, OUTPUT);
+  digitalWrite(STATUS_LED, HIGH);
 
 
   delay(6500);
@@ -397,6 +401,10 @@ void setup() {
       doNoteOn(5, (j * 7) + 40, 127);
       doNoteOn(6, (j * 7) + 47, 127);
       doNoteOn(7, (j * 7) + 28, 127);
+
+      // toggle the status led
+      led = !led;
+      digitalWrite(STATUS_LED, led);
       
       delay(500);
       
@@ -409,6 +417,10 @@ void setup() {
       doNoteOn(5, (j * 7) + 40, 0);
       doNoteOn(6, (j * 7) + 47, 0);
       doNoteOn(7, (j * 7) + 28, 0);
+
+      // toggle the status led
+      led = !led;
+      digitalWrite(STATUS_LED, led);
   }
 
 }
@@ -445,6 +457,8 @@ void doMidiPanic() {
 // Dealing with MIDI data
 
 void doNoteOn(byte channel, byte pitch, byte velocity) {
+  // Turn on the status LED
+  digitalWrite(STATUS_LED, LOW);
   
 // YM2413 NOTE ON EVENTS
   
@@ -565,10 +579,13 @@ void doNoteOn(byte channel, byte pitch, byte velocity) {
       velocityData[channel] = 0;
       writeAmplitude(0, channel);
     }
+  }
 }
 
 
 void doNoteOff(byte channel, byte pitch, byte velocity) {
+    // Turn off the status LED
+    digitalWrite(STATUS_LED, HIGH);
   
     if((channel == 13) && ((shadow[0x0e] & B00100000) == 0x20)) {   
        doDrums(pitch % 12, 0); 
