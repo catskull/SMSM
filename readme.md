@@ -1,0 +1,56 @@
+# SMSM
+## A MIDI interface for the Sega Master System
+
+Originally developed by [little-scale](http://little-scale.blogspot.com/2012/12/how-to-build-sega-master-system-midi.html).
+
+Updated and maintained by [catskull](http://catskull.net).
+
+## Building the ROM
+Install wla-dx. On OSX this is easily achieved using by using Homebrew. Simply call `brew install wla-dx` from a command line. If you get a linking error, run `sudo chown -R `whoami`:admin /usr/local/bin` and then run `brew link wla-dx`. If that completed successfully, run `wla-z80` from the command line and you should see something like this:
+
+```WLA Z80 Macro Assembler v9.6
+Written by Ville Helin in 1998-2008 - In GitHub since 2014: https://github.com/vhelin/wla-dx
+USAGE: wla-z80 -[iMqtvx]{lo} [DEFINITIONS] <ASM FILE> [OUTPUT FILE]
+Commands:             Options:
+l  Library file       i  Add list file information
+o  Object file        M  Output makefile rules
+                      q  Quiet
+                      t  Test compile
+                      v  Verbose messages
+                      x  Extra compile time definitions```
+
+Congratulations! You're now ready to build the ROM!
+
+cd into the ROM directory. Inside there is SMSM.asm, and build.sh. Enter `./build.sh` from the command line and it will build the ROM for you! You should now see a file called output.sms in this directory. This is the rom! Fire up your favorite emulator and give it a shot!
+
+## ROM improvements
+
+The ROM as developed by little-scale works quite well but is very bare bones. For example, it does not display anything on the screen when booted so there's no way of knowing whether or not your cartridge even works or not!
+
+Here is a list of improvements I've made to the ROM so far:
+ - clear the bios screen on boot
+ - display a message on boot "System ready!"
+
+Wish list:
+ - mGB style console based interface for editing instrument presets (currently that is only supported by MIDI CC commands)
+ - Implement the reset button on the console to reset the rom (a sort of MIDI panic)
+ - Display a message if the YM2413 FM sound chip is detected
+
+## Hardware
+
+Add more here.
+
+# Credits
+Sebastian Tomczak (aka little-scale) for the ROM, arduino code, and everything else.
+Maxim for a great hello world tutorial.
+Everyone at smspower.org
+
+# License
+
+little-scale released this with this note:
+
+"The code etc for this is open and free to use. Please do not commercialise this. It is not for making money. It is for making cool chiptune musics. I encourage you to build one of these. It is easy and shouldn't take long. I encourage you to hack the code and play and have fun with it."
+
+This is not really a valid software license. The ROM is based on Maxim's hello world program which also was not really released with a license.
+
+For the time being, the code is somewhere in between public domain and all rights reserved. All contributions I make will be licensed under GPL v2.
