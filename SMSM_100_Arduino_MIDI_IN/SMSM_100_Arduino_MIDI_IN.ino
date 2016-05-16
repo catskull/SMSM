@@ -12,10 +12,10 @@
 
 SMS Player 2 Port Pin 1 <-- Arduino Pin 2
 SMS Player 2 Port Pin 2 <-- Arduino Pin 3
-SMS Player 2 Port Pin 3 <-- Arduino Analog Input Pin 0 
+SMS Player 2 Port Pin 3 <-- Arduino Analog Input Pin 0
 SMS Player 2 Port Pin 4 <-- Arduino Analog Input Pin 1
 SMS Player 2 Port Pin 5 No Connection
-SMS Player 2 Port Pin 6 <-- Arduino Analog Input Pin 2 
+SMS Player 2 Port Pin 6 <-- Arduino Analog Input Pin 2
 SMS Player 2 Port Pin 7 <-- Arduino Pin 4
 SMS Player 2 Port Pin 8 <-> Arduino Ground
 SMS Player 2 Port Pin 9 <-- Arduino Analog Input Pin 3
@@ -46,15 +46,15 @@ byte out_data;
 byte shadow[56];
 byte fm_pitches[9];
 
-byte drum; 
-byte drum_key;  
+byte drum;
+byte drum_key;
 double fm_pitch;
 int fm_bend_res = 12;
 byte fm_pitch1;
 byte fm_pitch2;
 byte fm_block;
 byte fm_offset;
-int note_A = 444; 
+int note_A = 444;
 byte fm_octave_div = 12;
 double fm_bend[9];
 
@@ -69,7 +69,7 @@ int SPB_counter = 0;
 int SPB_speed = 0;
 int SPB_tick = 1;
 int sample_on = 0; // turn sample mode on
-byte SPB_volume; 
+byte SPB_volume;
 
 int SPB_max = 400;
 
@@ -80,7 +80,7 @@ int sample_length_list[] = {
   900, // hat o1
   1300, // tom1
   4000, // ride1
-  400, 
+  400,
   300,
   1000,
   2000,
@@ -197,8 +197,8 @@ const char tomtom2[] PROGMEM = {
 
 
 
-int wr = 2; 
-int hl = 3; 
+int wr = 2;
+int hl = 3;
 int fm = 4;
 int dT = 14;
 
@@ -208,10 +208,10 @@ byte rstat;
 byte working_byte = 0; // working byte for the SN76489 stuff
 
 byte channel;
-byte pitch; 
+byte pitch;
 byte velocity;
-byte ccnumber; 
-byte ccvalue; 
+byte ccnumber;
+byte ccvalue;
 byte bendMSB;
 byte bendLSB;
 
@@ -224,9 +224,9 @@ int delay_time_sn = 0;
 
 int flag_mode = 1;
 
-int flag_previous = 0; // keeps track of the previus MIDI byte type received 
+int flag_previous = 0; // keeps track of the previus MIDI byte type received
 
-/* flag_previous meanings: 
+/* flag_previous meanings:
  -1 = note off status
  -2 = note off pitch
  0 = no action / waiting
@@ -238,25 +238,25 @@ int flag_previous = 0; // keeps track of the previus MIDI byte type received
  6 = bend lsb
  */
 
-int pitchTable[] = 
+int pitchTable[] =
 {
-  1008, 951, 898, 847, 800, 755, 713, 673, 635, 599, 566, 534, 504, 
-  475, 449, 424, 400, 378, 356, 336, 317, 300, 283, 267, 252, 238, 
-  224, 212, 200, 189, 178, 168, 159, 150, 141, 133, 126, 119, 112, 
-  106, 100, 94, 89, 84, 79, 75, 71, 67, 63, 59, 56, 53, 50, 47, 45, 
-  42, 40, 37, 35, 33, 31, 30, 28, 26, 25, 24, 22, 21, 20, 19, 18, 17, 
-  16, 15, 14, 13, 13, 12, 11, 11, 10, 9, 9, 
-  1017, 960, 906, 855, 807, 762, 719, 679, 641, 605, 571, 539, 508, 480, 
-  453, 428, 404, 381, 360, 339, 320, 302, 285, 269, 254, 240, 226, 214, 
-  202, 190, 180, 170, 160, 151, 143, 135, 127, 120, 113, 107, 101, 95, 
-  90, 85, 80, 76, 71, 67, 64, 60, 57, 53, 50, 48, 45, 42, 40, 38, 36, 
-  34, 32, 30, 28, 27, 25, 24, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13, 
+  1008, 951, 898, 847, 800, 755, 713, 673, 635, 599, 566, 534, 504,
+  475, 449, 424, 400, 378, 356, 336, 317, 300, 283, 267, 252, 238,
+  224, 212, 200, 189, 178, 168, 159, 150, 141, 133, 126, 119, 112,
+  106, 100, 94, 89, 84, 79, 75, 71, 67, 63, 59, 56, 53, 50, 47, 45,
+  42, 40, 37, 35, 33, 31, 30, 28, 26, 25, 24, 22, 21, 20, 19, 18, 17,
+  16, 15, 14, 13, 13, 12, 11, 11, 10, 9, 9,
+  1017, 960, 906, 855, 807, 762, 719, 679, 641, 605, 571, 539, 508, 480,
+  453, 428, 404, 381, 360, 339, 320, 302, 285, 269, 254, 240, 226, 214,
+  202, 190, 180, 170, 160, 151, 143, 135, 127, 120, 113, 107, 101, 95,
+  90, 85, 80, 76, 71, 67, 64, 60, 57, 53, 50, 48, 45, 42, 40, 38, 36,
+  34, 32, 30, 28, 27, 25, 24, 22, 21, 20, 19, 18, 17, 16, 15, 14, 13,
   13, 12, 11, 11, 10, 9, 9
 };
 
 int bass_mode = 0;
 
-int coarsePitch[] = 
+int coarsePitch[] =
 {
   64, 64, 64, 64
 };
@@ -265,22 +265,22 @@ int coarsePitch[] =
 int pitchTableOffset = MODE_NTSC;
 
 // Arrays to hold running state data
-byte bend_data[] = 
+byte bend_data[] =
 {
   64, 64, 64, 64
 };
 
-byte bend_MSB[] = 
+byte bend_MSB[] =
 {
   64, 64, 64, 64
 };
 
-byte pitchData[] = 
+byte pitchData[] =
 {
   0, 0, 0, 0
 };
 
-byte velocityData[] = 
+byte velocityData[] =
 {
   0, 0, 0, 0
 };
@@ -357,7 +357,7 @@ byte vibFlip[] = {
 /*
  //&&&&&&&&&&&&&&&&&&&&&&\\
  ||                      ||
- ||      SETUP           || 
+ ||      SETUP           ||
  ||                      ||
  \\&&&&&&&&&&&&&&&&&&&&&&//
  */
@@ -370,9 +370,9 @@ void setup() {
 
   DDRC = DDRC | B00111111; // set the direction for PORTC
 
-  pinMode(wr, OUTPUT); 
-  pinMode(hl, OUTPUT); 
-  pinMode(fm, OUTPUT); 
+  pinMode(wr, OUTPUT);
+  pinMode(hl, OUTPUT);
+  pinMode(fm, OUTPUT);
   digitalWrite(fm, LOW);
 
   PORTC = 0;
@@ -392,13 +392,13 @@ void setup() {
   doCC(10, 14, 101);
   doCC(11, 14, 101);
   doCC(12, 14, 101);
-  
+
   for(int j = 0; j < 4; j ++) {
       doNoteOn(0, (j * 7) + 45, 100);
       doNoteOn(1, (j * 7) + 52, 100);
       doNoteOn(2, (j * 7) + 59, 100);
       doNoteOn(3, (j * 7) + 40, 100);
-      
+
       doNoteOn(4, (j * 7) + 33, 127);
       doNoteOn(5, (j * 7) + 40, 127);
       doNoteOn(6, (j * 7) + 47, 127);
@@ -407,14 +407,14 @@ void setup() {
       // toggle the status led
       led = !led;
       digitalWrite(STATUS_LED, led);
-      
+
       delay(500);
-      
+
       doNoteOn(0, (j * 7) + 40, 0);
       doNoteOn(1, (j * 7) + 47, 0);
       doNoteOn(2, (j * 7) + 50, 0);
       doNoteOn(3, (j * 7) + 40, 0);
-      
+
       doNoteOn(4, (j * 7) + 33, 0);
       doNoteOn(5, (j * 7) + 40, 0);
       doNoteOn(6, (j * 7) + 47, 0);
@@ -461,35 +461,35 @@ void doMidiPanic() {
 void doNoteOn(byte channel, byte pitch, byte velocity) {
   // Turn on the status LED
   digitalWrite(STATUS_LED, LOW);
-  
+
 // YM2413 NOTE ON EVENTS
-  
-  if((channel == 13) && ((shadow[0x0e] & B00100000) == 0x20)) {   
-   doDrums(pitch % 12, velocity); 
+
+  if((channel == 13) && ((shadow[0x0e] & B00100000) == 0x20)) {
+   doDrums(pitch % 12, velocity);
   }
 
   else if(channel >= 4 && channel <= 12) {
     channel = channel - 4;
-    
+
     if(velocity > 0) {
-      
+
     // write the pitch and volume
-    fm_pitch = pitch + fm_offset; 
+    fm_pitch = pitch + fm_offset;
     fm_pitches[channel] = fm_pitch;
     fm_block = (byte(fm_pitch + fm_bend[channel]) / byte(fm_octave_div)) % 8;
-    
+
     fm_pitch = ((note_A * pow(2, ((fm_pitch - 69 + fm_bend[channel]) / fm_octave_div) )) * (pow(2, 18) / 50000)) / pow(2, fm_block - 1);
     fm_pitch1 = int(fm_pitch) % 256;
     fm_pitch2 = int(fm_pitch) / 256;
-    
+
     shadow[0x20 + channel] = (shadow[0x20 + channel] & B11100000) | ((fm_block << 1) + fm_pitch2 + B00010000);
     shadow[0x30 + channel] = (shadow[0x30 + channel] & B11110000) | (15 - (velocity >> 3));
-    
+
     writeYM2413(0x10 + channel, fm_pitch1);
     writeYM2413(0x20 + channel, shadow[0x20 + channel]);
     writeYM2413(0x30 + channel, shadow[0x30 + channel]);
     }
-    
+
     else {
       shadow[0x30 + channel] = (shadow[0x30 + channel] & B11110000) | B00001111;
       shadow[0x20 + channel] = shadow[0x20 + channel] & B11101111;
@@ -497,9 +497,9 @@ void doNoteOn(byte channel, byte pitch, byte velocity) {
       writeYM2413(0x20 + channel, shadow[0x20 + channel]);
     }
   }
-  
-  
-  
+
+
+
   // SN76489 SAMPLE PLAYBACK ON CHANNEL 2
   else if(channel == 1 && sample_on == 1) {
     SPB_sound = pitch % 24;
@@ -513,20 +513,20 @@ void doNoteOn(byte channel, byte pitch, byte velocity) {
       SPB_flag = 0;
     }
   }
-  
-  
-  
+
+
+
   // SN76489 BASS MODE
   else if(channel == 2 && bass_mode == 1) {
-    if(sample_on == 1) 
+    if(sample_on == 1)
     {
       velocity = velocity / 3;
     }
-    
-    
+
+
     writeSN76489(B11100011); // clock by frequency
     if(velocity > 0) {
-      int coarsePitchVal = -12 + (coarsePitch[channel] / 5); 
+      int coarsePitchVal = -12 + (coarsePitch[channel] / 5);
       pitchData[channel] = pitch;
       velocityData[channel + 1] = velocity;
       writeFrequency(pitch, channel);
@@ -538,20 +538,20 @@ void doNoteOn(byte channel, byte pitch, byte velocity) {
       writeAmplitude(0, channel + 1);
     }
   }
-  
-  
-  
+
+
+
 
   // NORMAL PULSE CHANNELS
   else if(channel >= 0 && channel <= 2 && pitch >= 45) {
-    
-    if(sample_on == 1) 
+
+    if(sample_on == 1)
     {
       velocity = velocity / 3;
     }
-    
+
     if(velocity > 0) {
-      int coarsePitchVal = -12 + (coarsePitch[channel] / 5); 
+      int coarsePitchVal = -12 + (coarsePitch[channel] / 5);
       pitchData[channel] = pitch;
       velocityData[channel] = velocity;
       writeFrequency(pitch, channel);
@@ -566,11 +566,11 @@ void doNoteOn(byte channel, byte pitch, byte velocity) {
 
   // NOISE
   else if(channel == 3) {
-        if(sample_on == 1) 
+        if(sample_on == 1)
     {
       velocity = velocity / 3;
     }
-    
+
     if(velocity > 0) {
       velocityData[channel] = velocity;
       writeSN76489(noiseLookup[pitch % 12]);
@@ -588,11 +588,11 @@ void doNoteOn(byte channel, byte pitch, byte velocity) {
 void doNoteOff(byte channel, byte pitch, byte velocity) {
     // Turn off the status LED
     digitalWrite(STATUS_LED, HIGH);
-  
-    if((channel == 13) && ((shadow[0x0e] & B00100000) == 0x20)) {   
-       doDrums(pitch % 12, 0); 
+
+    if((channel == 13) && ((shadow[0x0e] & B00100000) == 0x20)) {
+       doDrums(pitch % 12, 0);
     }
-    
+
     else if(channel >= 4 && channel <= 12) {
       channel = channel - 4;
       shadow[0x30 + channel] = (shadow[0x30 + channel] & B11110000) | B00001111;
@@ -600,7 +600,7 @@ void doNoteOff(byte channel, byte pitch, byte velocity) {
       writeYM2413(0x30 + channel, shadow[0x30 + channel]);
       writeYM2413(0x20 + channel, shadow[0x20 + channel]);
   }
-  
+
   else if(channel == 1 && sample_on == 1) {
     SPB_flag = 0;
   }
@@ -632,7 +632,7 @@ void doCC(byte channel, byte ccnumber, byte ccvalue) {
 
   // MIDI CC 42 = coarse tuning
   else if(ccnumber == 42 && channel >= 0 && channel <= 3) {
-    coarsePitch[channel] = ccvalue; 
+    coarsePitch[channel] = ccvalue;
     writeFrequency(pitchData[channel], channel);
   }
 
@@ -640,32 +640,32 @@ void doCC(byte channel, byte ccnumber, byte ccvalue) {
 
   // MIDI CC 70 = AM On
   else if(ccnumber == 70 && channel >= 0 && channel <= 3) {
-    amModOn[channel] = ccvalue >> 6; 
+    amModOn[channel] = ccvalue >> 6;
   }
 
   // MIDI CC 18 = AM Speed
   else if(ccnumber == 18 && channel >= 0 && channel <= 3) {
-    amSpeed[channel] = ccvalue; 
+    amSpeed[channel] = ccvalue;
   }
 
   // MIDI CC 19 = AM Depth
   else if(ccnumber == 19 && channel >= 0 && channel <= 3) {
-    amDepth[channel] = ccvalue; 
+    amDepth[channel] = ccvalue;
   }
 
   // MIDI CC 71 = Vib On
   else if(ccnumber == 71 && channel >= 0 && channel <= 2) {
-    vibModOn[channel] = ccvalue >> 6; 
+    vibModOn[channel] = ccvalue >> 6;
   }
 
   // MIDI CC 20 = Vib Speed
   else if(ccnumber == 20 && channel >= 0 && channel <= 2) {
-    vibSpeed[channel] = ccvalue; 
+    vibSpeed[channel] = ccvalue;
   }
 
   // MIDI CC 21 = Vib Depth
   else if(ccnumber == 21 && channel >= 0 && channel <= 2) {
-    vibDepth[channel] = ccvalue; 
+    vibDepth[channel] = ccvalue;
   }
 
   // MIDI CC 11 = expression
@@ -683,186 +683,186 @@ void doCC(byte channel, byte ccnumber, byte ccvalue) {
     sample_on = ccvalue >> 6;
 
   }
-  
+
     // MIDI CC 86 = sample playback speed
   else if(ccnumber == 86) {
     SPB_speed = ccvalue;
   }
-  
+
       // MIDI CC 85 = bass mode
   else if(ccnumber == 85) {
     bass_mode = ccvalue >> 6;
   }
-  
+
   }
    // YM2413 MIDI CC
     else if(channel >=4 && channel <=14) {
       channel = channel - 4;
-      
+
       switch(ccnumber) {
         case 14: // set instrument
         shadow[0x30 + channel] = (shadow[0x30 + channel] & B00001111) | ((ccvalue >> 3) << 4);
         writeYM2413(0x30 + channel, shadow[0x30 + channel]);
         break;
-        
+
         // register $00 - $01
-        
+
         case 15: // AM on (mod)
         shadow[0x00] = (shadow[0x00] & B01111111) | ((ccvalue >> 6) << 7);
         writeYM2413(0x00, shadow[0x00]);
         break;
-        
+
         case 16: // AM on (carrier)
         shadow[0x01] = (shadow[0x01] & B01111111) | ((ccvalue >> 6) << 7);
         writeYM2413(0x01, shadow[0x01]);
         break;
-        
+
         case 17: // vib on (m)
         shadow[0x00] = (shadow[0x00] & B10111111) | ((ccvalue >> 6) << 6);
         writeYM2413(0x00, shadow[0x00]);
         break;
-        
+
         case 18: // vib on (c)
         shadow[0x01] = (shadow[0x01] & B10111111) | ((ccvalue >> 6) << 6);
         writeYM2413(0x01, shadow[0x01]);
         break;
-        
+
         case 19: // EG type (m)
         shadow[0x00] = (shadow[0x00] & B11011111) | ((ccvalue >> 6) << 5);
         writeYM2413(0x00, shadow[0x00]);
         break;
-        
+
         case 20: // EG type (c)
         shadow[0x01] = (shadow[0x01] & B11011111) | ((ccvalue >> 6) << 5);
         writeYM2413(0x01, shadow[0x01]);
         break;
-        
+
         case 21: // KSR on (m)
         shadow[0x00] = (shadow[0x00] & B11101111) | ((ccvalue >> 6) << 4);
         writeYM2413(0x00, shadow[0x00]);
         break;
-        
+
         case 22: // KSR on (c)
         shadow[0x01] = (shadow[0x01] & B11101111) | ((ccvalue >> 6) << 4);
         writeYM2413(0x01, shadow[0x01]);
         break;
-        
+
         case 23: // mul (m)
         shadow[0x00] = (shadow[0x00] & B11110000) | (ccvalue >> 3);
         writeYM2413(0x00, shadow[0x00]);
         break;
-        
+
         case 24: // mul (c)
         shadow[0x01] = (shadow[0x01] & B11110000) | (ccvalue >> 3);
         writeYM2413(0x01, shadow[0x01]);
         break;
-        
+
         // register $02 - $03
-        
+
         case 25: // ksl (m)
         shadow[0x02] = (shadow[0x02] & B00111111) | ((ccvalue >> 5) << 6);
         writeYM2413(0x02, shadow[0x02]);
         break;
-        
+
         case 26: // ksl (c)
         shadow[0x03] = (shadow[0x03] & B00111111) | ((ccvalue >> 5) << 6);
         writeYM2413(0x03, shadow[0x03]);
         break;
-        
+
         case 27: // TL modulation
         shadow[0x02] = (shadow[0x02] & B11000000) | (ccvalue >> 1);
         writeYM2413(0x02, shadow[0x02]);
         break;
-        
+
         case 28: // rect (m)
         shadow[0x03] = (shadow[0x03] & B11110111) | ((ccvalue >> 6) << 3);
         writeYM2413(0x03, shadow[0x03]);
         break;
-        
+
         case 29: // rect (c)
         shadow[0x03] = (shadow[0x03] & B11101111) | ((ccvalue >> 6) << 4);
         writeYM2413(0x03, shadow[0x03]);
         break;
-        
+
         case 30: // FM feedback (m)
         shadow[0x03] = (shadow[0x03] & B11111000) | (ccvalue >> 4);
         writeYM2413(0x03, shadow[0x03]);
         break;
-        
+
         case 31: // attack (m)
         shadow[0x04] = (shadow[0x04] & B00001111) | ((ccvalue >> 3) << 4);
         writeYM2413(0x04, shadow[0x04]);
         break;
-        
+
         case 32: // decay (m)
         shadow[0x04] = (shadow[0x04] & B11110000) | (ccvalue >> 3);
         writeYM2413(0x04, shadow[0x04]);
         break;
-        
+
         case 33: // sustain (m)
         shadow[0x06] = (shadow[0x06] & B00001111) | ((ccvalue >> 3) << 4);
         writeYM2413(0x06, shadow[0x06]);
         break;
-        
+
         case 34: // release (m)
         shadow[0x06] = (shadow[0x06] & B11110000) | (ccvalue >> 3);
         writeYM2413(0x06, shadow[0x06]);
         break;
-        
+
         case 35: // attack (c)
         shadow[0x05] = (shadow[0x05] & B00001111) | ((ccvalue >> 3) << 4);
         writeYM2413(0x05, shadow[0x05]);
         break;
-        
+
         case 36: // decay (c)
         shadow[0x05] = (shadow[0x05] & B11110000) | (ccvalue >> 3);
         writeYM2413(0x05, shadow[0x05]);
         break;
-        
+
         case 37: // sustain (c)
         shadow[0x07] = (shadow[0x07] & B00001111) | ((ccvalue >> 3) << 4);
         writeYM2413(0x07, shadow[0x07]);
         break;
-        
+
         case 38: // release (c)
         shadow[0x07] = (shadow[0x07] & B11110000) | (ccvalue >> 3);
         writeYM2413(0x07, shadow[0x07]);
         break;
-        
-        
-        
+
+
+
         case 70: // sustain mode enabled
-        shadow[0x20 + channel] = (shadow[0x20 + channel] & B11011111) | ((ccvalue >> 6) << 5);     
+        shadow[0x20 + channel] = (shadow[0x20 + channel] & B11011111) | ((ccvalue >> 6) << 5);
         writeYM2413(0x20 + channel, shadow[0x20 + channel]);
         break;
-        
+
         case 78: // percussion mode enabled
         shadow[0x0e] = (shadow[0x0e] & B11011111) | ((ccvalue >> 6) << 5);
-        
+
         writeYM2413(0x16, 0x20);
         writeYM2413(0x17, 0x50);
         writeYM2413(0x18, 0xc0);
         writeYM2413(0x26, 0x05);
         writeYM2413(0x27, 0x05);
         writeYM2413(0x28, 0x01);
-        
+
         writeYM2413(0x0e, shadow[0x0e]);
-        
+
         break;
-        
+
         case 79: // set pitch bend resolution
         fm_bend_res = ccvalue / (127 / 12);
-        break; 
-        
+        break;
+
         case 80: // set octave division resolution
         fm_octave_div = ccvalue;
         break;
-        
+
         case 81: // set the value of A in Hz
-        note_A = 381 + ccvalue; 
-        break; 
-        
-        
+        note_A = 381 + ccvalue;
+        break;
+
+
       }
 
 }
@@ -878,22 +878,22 @@ void doBend(byte channel, byte bendLSB, double bendMSB) {
     bend_data[channel] = bend_MSB[channel];
     writeFrequency(pitchData[channel], channel);
   }
-  
+
     else if(channel >= 4 && channel <= 12) {
     channel = channel - 4;
-    
+
     fm_bend[channel] = (bendMSB - 63) / (127 / (fm_bend_res * 2));
     fm_pitch = fm_pitches[channel];
     fm_block = (byte(fm_pitch) / byte(fm_octave_div)) % 8;
-    
-    
+
+
     // write the pitch
     fm_pitch = ((note_A * pow(2, ((fm_pitch - 69 + fm_bend[channel]) / fm_octave_div) )) * (pow(2, 18) / 50000)) / pow(2, fm_block - 1);
     fm_pitch1 = int(fm_pitch) % 256;
     fm_pitch2 = int(fm_pitch) / 256;
-    
+
     shadow[0x20 + channel] = (shadow[0x20 + channel] & B11100000) | ((fm_block << 1) + fm_pitch2 + B00010000);
-    
+
     writeYM2413(0x10 + channel, fm_pitch1);
     writeYM2413(0x20 + channel, shadow[0x20 + channel]);
     }
@@ -911,20 +911,20 @@ void doBend(byte channel, byte bendLSB, double bendMSB) {
 ////////////////////////////////////////////////////////
 
 void writeSN76489(byte data) {
-  
+
   PORTC = data & 0x0f;
-  digitalWrite(hl, LOW); 
-  digitalWrite(wr, HIGH); 
+  digitalWrite(hl, LOW);
+  digitalWrite(wr, HIGH);
   delayMicroseconds(dT);
-  digitalWrite(wr, LOW); 
+  digitalWrite(wr, LOW);
   delayMicroseconds(dT);
 
-  PORTC = (data >> 4) & 0x0f; 
-  digitalWrite(hl, HIGH); 
-  digitalWrite(wr, HIGH); 
+  PORTC = (data >> 4) & 0x0f;
+  digitalWrite(hl, HIGH);
+  digitalWrite(wr, HIGH);
   delayMicroseconds(dT);
-  digitalWrite(wr, LOW); 
-  delayMicroseconds(dT);    
+  digitalWrite(wr, LOW);
+  delayMicroseconds(dT);
 }
 
 
@@ -938,22 +938,22 @@ void writeSN76489(byte data) {
 
 void writeYM2413(byte address, byte data2) {
   digitalWrite(fm, HIGH); // latch FM active pin...
-  
-    out_data = address | B10000000; 
-    writeSN76489(out_data);    
+
+    out_data = address | B10000000;
+    writeSN76489(out_data);
     delayMicroseconds(50);
-  
-  
+
+
   out_data = data2 & B00001111;
   writeSN76489(out_data);
     delayMicroseconds(50);
-    
-    
+
+
   out_data = B01000000 | ((data2 >> 4) & B00001111);
   writeSN76489(out_data);
-  
+
   delayMicroseconds(50);
-  digitalWrite(fm, LOW); // unlatch FM active pin...  
+  digitalWrite(fm, LOW); // unlatch FM active pin...
 }
 
 
@@ -970,7 +970,7 @@ void writeAmplitude(byte velocity, byte channel) {
 void writeFrequency(byte pitch, byte channel) {
   // latch byte
   int pdaInt;
-  int coarsePitchVal = -12 + (coarsePitch[channel] / 5); 
+  int coarsePitchVal = -12 + (coarsePitch[channel] / 5);
   pdatInt = (pitchTable[pitch - 45 + pitchTableOffset + coarsePitchVal]) + (64 - bend_data[channel]);
   if(pdatInt < 0) {
     pdatInt = 0;
@@ -1067,106 +1067,106 @@ void doSample() {
       switch (SPB_sound) {
       case 0:
         writeSN76489(B10110000 | ((pgm_read_byte_near(kick1 + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break;      
+        break;
 
       case 1:
         writeSN76489(B10110000 | ((pgm_read_byte_near(snare1 + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
       case 2:
         writeSN76489(B10110000 | ((pgm_read_byte_near(hatc1 + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
       case 3:
         writeSN76489(B10110000 | ((pgm_read_byte_near(hato1 + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
       case 4:
         writeSN76489(B10110000 | ((pgm_read_byte_near(tom1 + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
       case 5:
         writeSN76489(B10110000 | ((pgm_read_byte_near(ride1 + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
       case 6:
         writeSN76489(B10110000 | ((pgm_read_byte_near(bongo1 + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
       case 7:
         writeSN76489(B10110000 | ((pgm_read_byte_near(bongo2 + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
       case 8:
         writeSN76489(B10110000 | ((pgm_read_byte_near(conga + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
       case 9:
         writeSN76489(B10110000 | ((pgm_read_byte_near(crash1 + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
       case 10:
         writeSN76489(B10110000 | ((pgm_read_byte_near(crash2 + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
       case 11:
         writeSN76489(B10110000 | ((pgm_read_byte_near(dnbkick + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
       case 12:
         writeSN76489(B10110000 | ((pgm_read_byte_near(djscratch + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
       case 13:
         writeSN76489(B10110000 | ((pgm_read_byte_near(kick2 + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
       case 14:
         writeSN76489(B10110000 | ((pgm_read_byte_near(kick3 + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
       case 15:
         writeSN76489(B10110000 | ((pgm_read_byte_near(snare2 + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
       case 16:
         writeSN76489(B10110000 | ((pgm_read_byte_near(tambourine + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
       case 17:
         writeSN76489(B10110000 | ((pgm_read_byte_near(thunderkick + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
       case 18:
         writeSN76489(B10110000 | ((pgm_read_byte_near(tomtom1 + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
       case 19:
         writeSN76489(B10110000 | ((pgm_read_byte_near(tomtom2 + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
       case 20:
         writeSN76489(B10110000 | ((pgm_read_byte_near(kick1 + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
       case 21:
         writeSN76489(B10110000 | ((pgm_read_byte_near(kick1 + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
       case 22:
         writeSN76489(B10110000 | ((pgm_read_byte_near(kick1 + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
-      
+        break;
+
       case 23:
         writeSN76489(B10110000 | ((pgm_read_byte_near(kick1 + (SPB_counter / 2)) >> ((SPB_counter % 2) * 4)) & B00001111));
-        break; 
+        break;
 
 
       }
 
 
       SPB_counter = SPB_counter + 1;
-      SPB_tick = 0; 
+      SPB_tick = 0;
     }
 
     if(SPB_tick < SPB_speed) {
@@ -1252,63 +1252,62 @@ void doMidiIn(byte data) {
 }
 
 void doDrums(byte case1, byte velo1) {
-  
+
 
         if(velo1 > 0) {
           drum_key = 1;
         }
-        
+
         else {
           drum_key = 0;
         }
-        
+
         switch(case1) {
         case 0: // bd
         shadow[0x0e] = (shadow[0x0e] & B11101111) | (drum_key << 4);
         shadow[0x36] = (shadow[0x36] & B11110000) | (15 - (velo1 >> 3));
-        
+
         writeYM2413(0x36, shadow[0x36]);
         writeYM2413(0x0e, shadow[0x0e]);
-        
+
         break;
-        
-        
+
+
         case 2: // sd
         shadow[0x0e] = (shadow[0x0e] & B11110111) | (drum_key << 3);
         shadow[0x37] = (shadow[0x37] & B11110000) | (15 - (velo1 >> 3));
-        
+
         writeYM2413(0x37, shadow[0x37]);
         writeYM2413(0x0e, shadow[0x0e]);
-        
+
         break;
-        
-        
+
+
         case 4: // tom
         shadow[0x0e] = (shadow[0x0e] & B11111011) | (drum_key << 2);
         shadow[0x38] = (shadow[0x38] & B00001111) | ((15 - (velo1 >> 3)) << 4);
-        
+
         writeYM2413(0x38, shadow[0x38]);
         writeYM2413(0x0e, shadow[0x0e]);
-        
+
         break;
-        
+
         case 5: // top-cy
         shadow[0x0e] = (shadow[0x0e] & B11111101) | (drum_key << 1);
         shadow[0x38] = (shadow[0x38] & B11110000) | (15 - (velo1 >> 3));
-        
+
         writeYM2413(0x38, shadow[0x38]);
         writeYM2413(0x0e, shadow[0x0e]);
-        
+
         break;
-        
+
         case 7: // hh
         shadow[0x0e] = (shadow[0x0e] & B11111110) | drum_key;
         shadow[0x37] = (shadow[0x37] & B00001111) | ((15 - (velo1 >> 3)) << 4);
-        
+
         writeYM2413(0x37, shadow[0x37]);
         writeYM2413(0x0e, shadow[0x0e]);
-        
+
         break;
       }
 }
-
