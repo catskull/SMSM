@@ -1,7 +1,9 @@
 // SEGA Master System MIDI Interface for Arduino MIDI In
-// SMSM Firmware v100
-// by little-scale 
+// SMSM Firmware v1.0.1
+// by little-scale
 // Released 3 December 2012
+// updated by catskull
+// on 16 May 2016
 
 
 
