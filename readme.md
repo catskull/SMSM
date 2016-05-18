@@ -6,7 +6,7 @@ Originally developed by [little-scale](http://little-scale.blogspot.com/2012/12/
 Updated and maintained by [catskull](http://catskull.net).
 
 ## Building the ROM
-Install wla-dx. On OSX this is easily achieved using by using Homebrew. Simply call `brew install wla-dx` from a command line. If you get a linking error, run `sudo chown -R `whoami`:admin /usr/local/bin` and then run `brew link wla-dx`. If that completed successfully, run `wla-z80` from the command line and you should see something like this:
+Install wla-dx. On OSX this is easily achieved using by using Homebrew. Simply call `brew install wla-dx` from a command line. If you get a linking error, run ```sudo chown -R `whoami`:admin /usr/local/bin` and then run `brew link wla-dx```. If that completed successfully, run `wla-z80` from the command line and you should see something like this:
 
 ```WLA Z80 Macro Assembler v9.6
 Written by Ville Helin in 1998-2008 - In GitHub since 2014: https://github.com/vhelin/wla-dx
@@ -36,13 +36,25 @@ Wish list:
  - Implement the reset button on the console to reset the rom (a sort of MIDI panic)
  - Display a message if the YM2413 FM sound chip is detected
 
-## Hardware
+# Hardware
 
-Add more here.
+The hardware as developed by little-scale is quite complete. It does most of the heavy lifting, which is why the console ROM is so bare bones.
+
+Here is a list of improvements I have made:
+ - Added a status LED on pin 13. It blinks in a pattern and then goes steady on on first boot. Once notes are being sent, it blinks each time a note is received.
+ - Added a MIDI panic button. Pressing it will kill all notes on the console.
+ - I have designed a small PCB based around the Arduino Pro Mini for easiest use.
+
+Wish list:
+ - Currently, the PCB does not work with a Game Gear. It simply does not power on. Powering the unit externally does not work either. It powers on, but will not receive any MIDI data.
+ - The PCB interface does not work with my cheapie USB MIDI cable. It will occasionally get midi data, but not reliably and will frequently miss MIDI note off.
+
 
 # Credits
 Sebastian Tomczak (aka little-scale) for the ROM, arduino code, and everything else.
+
 Maxim for a great hello world tutorial.
+
 Everyone at smspower.org
 
 # License
