@@ -1,8 +1,8 @@
 #!/bin/bash
-wla-z80 -o 'SMSM.asm' object.o
+wla-z80 -o object.o SMSM.asm
 echo [objects]>linkfile
 echo object.o>>linkfile
-wlalink -drvs linkfile output.sms
+wlalink -d -r -v -s linkfile output.sms
 rm linkfile
 rm object.o
 rm output.sym
