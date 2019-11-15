@@ -8,16 +8,29 @@ Updated and maintained by [catskull](http://catskull.net).
 ## Building the ROM
 Install wla-dx. On OSX this is easily achieved using by using Homebrew. Simply call `brew install wla-dx` from a command line. If you get a linking error, run ```sudo chown -R `whoami`:admin /usr/local/bin` and then run `brew link wla-dx```. If that completed successfully, run `wla-z80` from the command line and you should see something like this:
 
-```WLA Z80 Macro Assembler v9.6
+```
+WLA Z80 Macro Assembler v9.9
 Written by Ville Helin in 1998-2008 - In GitHub since 2014: https://github.com/vhelin/wla-dx
-USAGE: wla-z80 -[iMqtvx]{lo} [DEFINITIONS] <ASM FILE> [OUTPUT FILE]
-Commands:             Options:
-l  Library file       i  Add list file information
-o  Object file        M  Output makefile rules
-                      q  Quiet
-                      t  Test compile
-                      v  Verbose messages
-                      x  Extra compile time definitions```
+$VER: WLA-Z80 9.9 (15.8.2019)
+
+USAGE: wla-z80 [OPTIONS] <ASM FILE>
+
+Options:
+-i  Add list file information
+-M  Output makefile rules
+-q  Quiet
+-t  Test compile
+-v  Verbose messages
+-x  Extra compile time labels & definitions
+-I [DIR]  Include directory
+-D [DEF]  Declare definition
+
+Output types:
+-o [FILE]  Output object file
+-l [FILE]  Output library file
+
+EXAMPLE: wla-z80 -v -o main.obj main.asm
+```
 
 Congratulations! You're now ready to build the ROM!
 
